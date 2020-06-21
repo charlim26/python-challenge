@@ -18,9 +18,9 @@ pypoll_csv = os.path.join("Pypoll","Resources","election_data.csv")
 # Set variables 
 Voteid = []
 Results = []
+Candidates = []
 
-
-# Open and read csv file
+    # Open and read csv file
 with open(pypoll_csv,'r' ) as polldata:
 
     csvreader = csv.reader(polldata, delimiter=',')
@@ -30,17 +30,19 @@ with open(pypoll_csv,'r' ) as polldata:
 
         # Store Data 
         Voteid.append(data[0])
-        Candidates = data[2]
+        Candidates.append(str(data[2]))
+         
         
         # Unique Candidates
+    for i in Results:
         if Candidates not in Results: 
-            Results[Candidates] = 1
+            Results[Candidates] + i
         else: 
-            Results[Candidates] += 1
+            Results[Candidates] += i
 
    
 TotalVotes = len(Voteid)
-winner = max(Results, key=Results.get)
+winner = max(Results, key=Candidates.itemgetter(1))
 #UniqueCandidates = list(set(CandidateList))
 #CandidateVotes = CandidateList.count(data[2])
 
@@ -49,10 +51,10 @@ print("Election Results")
 print("----------------------")
 print(f"Total Votes: {str(TotalVotes)}")
 print("----------------------")
-print(f'Khan: {Results["Khan"] / TotalVotes:.3%} ({Results["Khan"]})')
-print(f'Correy: {Results["Correy"] / TotalVotes:.3%} ({Results["Correy"]})')
-print(f'Li: {Results["Li"] / TotalVotes:.3%} ({Results["Li"]})')
-print(f'O'Tooley: {Results["O'Tooley"] / TotalVotes:.3%} ({Results["O'Tooley"]})')
+print(f'Khan: {Results["Khan"] / TotalVotes:.3%} ({TotalVotes["Khan"]})')
+print(f'Correy: {Results["Correy"] / TotalVotes:.3%} ({TotalVotes["Correy"]})')
+print(f'Li: {Results["Li"] / TotalVotes:.3%} ({TotalVotes["Li"]})')
+#print(f'"O'Tooley:" + '{Results['O'Tooley'] / TotalVotes:.3%} ({TotalVotes["O'Tooley"]})')
 print("----------------------")
 print(f"Winner: {str(winner)}")
 print("----------------------")
@@ -63,10 +65,10 @@ with open(analysis_file, 'w') as ElectionAnalysis:
     ElectionAnalysis.write("Election Result\n")
     ElectionAnalysis.write("--------------------------\n")
     ElectionAnalysis.write(f"Total Votes: {str(TotalVotes)}\n")
-    ElectionAnalysis.write(f'Khan: {Results["Khan"] / TotalVotes:.3%} ({Results["Khan"]})\n')
-    ElectionAnalysis.write(f'Correy: {Results["Correy"] / TotalVotes:.3%} ({Results["Correy"]})\n')
-    ElectionAnalysis.write(f'Li: {Results["Li"] / TotalVotes:.3%} ({Results["Li"]})\n')
-    ElectionAnalysis.write(f'O'Tooley: {Results["O'Tooley"] / TotalVotes:.3%} ({Results["O'Tooley"]})\n')
+    ElectionAnalysis.write(f'Khan: {Results["Khan"] / TotalVotes:.3%} ({TotalVotes["Khan"]})\n')
+    ElectionAnalysis.write(f'Correy: {Results["Correy"] / TotalVotes:.3%} ({TotalVotes["Correy"]})\n')
+    ElectionAnalysis.write(f'Li: {Results["Li"] / TotalVotes:.3%} ({TotalVotes["Li"]})\n')
+    #ElectionAnalysis.write(f'"O'Tooley:"+ " {Results["O'Tooley"] / TotalVotes:.3%} ({TotalVotes["O'Tooley"]})'\n)
     ElectionAnalysis.write("----------------\n")
     ElectionAnalysis.write("--------------------------\n")
     ElectionAnalysis.write(f"Winner: {str(winner)}\n")
